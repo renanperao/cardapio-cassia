@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Product, StoreSettings } from '../types';
 
+const PRODUCTS_STORAGE_KEY = '@cassia:products_v10';
+
 const INITIAL_PRODUCTS: Product[] = [
   {
     id: '4',
@@ -285,59 +287,88 @@ const INITIAL_PRODUCTS: Product[] = [
   { id: '41', name: 'Bolo Recheado Coco (Coco Fresco)', description: 'Frescor do coco em cada mordida.', basePrice: 90, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 90, minKg: 1, hasFinishingOptions: true } },
   { id: '42', name: 'Bolo Recheado Dois Amores', description: 'A união do brigadeiro branco com o preto.', basePrice: 90, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 90, minKg: 1, hasFinishingOptions: true } },
   { id: '43', name: 'Bolo Recheado Brigadeiro Amendoim', description: 'Sabor marcante de amendoim.', basePrice: 80, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 80, minKg: 1, hasFinishingOptions: true } },
-  { id: '44', name: 'Brigadeiro Tradicional ao Leite', description: 'Brigadeiro clássico ao leite.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet', sweetMetadata: { isTradicional: true } },
-  { id: '45', name: 'Brigadeiro Tradicional Branco', description: 'Brigadeiro de chocolate branco.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet', sweetMetadata: { isTradicional: true } },
-  { id: '46', name: 'Brigadeiro Tradicional Moranguinho', description: 'O clássico bicho de pé.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet', sweetMetadata: { isTradicional: true } },
-  { id: '47', name: 'Brigadeiro Tradicional Dois Amores', description: 'Meio branco, meio preto.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet', sweetMetadata: { isTradicional: true } },
-  { id: '48', name: 'Brigadeiro Tradicional Leite Ninho', description: 'Com o sabor puro do Leite Ninho.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?w=800&q=80', isAvailable: true, category: 'sweet', sweetMetadata: { isTradicional: true } },
-  { id: '49', name: 'Brigadeiro Tradicional Coco', description: 'Beijinho de coco tradicional.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet', sweetMetadata: { isTradicional: true } },
+  { id: '44', name: 'Brigadeiro Tradicional ao Leite', description: 'Brigadeiro clássico ao leite.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Tradicionais', sweetMetadata: { isTradicional: true } },
+  { id: '45', name: 'Brigadeiro Tradicional Branco', description: 'Brigadeiro de chocolate branco.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Tradicionais', sweetMetadata: { isTradicional: true } },
+  { id: '46', name: 'Brigadeiro Tradicional Moranguinho', description: 'O clássico bicho de pé.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Tradicionais', sweetMetadata: { isTradicional: true } },
+  { id: '47', name: 'Brigadeiro Tradicional Dois Amores', description: 'Meio branco, meio preto.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Tradicionais', sweetMetadata: { isTradicional: true } },
+  { id: '48', name: 'Brigadeiro Tradicional Leite Ninho', description: 'Com o sabor puro do Leite Ninho.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Tradicionais', sweetMetadata: { isTradicional: true } },
+  { id: '49', name: 'Brigadeiro Tradicional Coco', description: 'Beijinho de coco tradicional.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Tradicionais', sweetMetadata: { isTradicional: true } },
 
-  { id: '50', name: 'Brigadeiro Gourmet Ninho com Nutella', description: 'Sabor irresistível de ninho e nutella.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '51', name: 'Brigadeiro Gourmet Romeu e Julieta', description: 'Queijo com goiabada.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '52', name: 'Brigadeiro Gourmet Churros', description: 'Sabor marcante de churros e doce de leite.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '53', name: 'Brigadeiro Gourmet Confete', description: 'Alegria em forma de doce.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '54', name: 'Brigadeiro Gourmet Surpresa de Uva', description: 'Uva envolta em brigadeiro branco.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '55', name: 'Brigadeiro Gourmet ao Leite', description: 'Chocolate nobre ao leite.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '56', name: 'Brigadeiro Gourmet Branco', description: 'Chocolate nobre branco.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '57', name: 'Brigadeiro Gourmet Meio Amargo', description: 'Chocolate nobre meio amargo.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '58', name: 'Brigadeiro Gourmet Damasco com Coco', description: 'Uma combinação fina e requintada.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '50', name: 'Brigadeiro Gourmet Ninho com Nutella', description: 'Sabor irresistível de ninho e nutella.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Gourmet' },
+  { id: '51', name: 'Brigadeiro Gourmet Romeu e Julieta', description: 'Queijo com goiabada.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Gourmet' },
+  { id: '52', name: 'Brigadeiro Gourmet Churros', description: 'Sabor marcante de churros e doce de leite.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Gourmet' },
+  { id: '53', name: 'Brigadeiro Gourmet Confete de Chocolate', description: 'Alegria em forma de doce.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Gourmet' },
+  { id: '54', name: 'Brigadeiro Gourmet Surpresa de Uva', description: 'Uva envolta em brigadeiro branco.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Gourmet' },
+  { id: '55', name: 'Brigadeiro Gourmet ao Leite', description: 'Chocolate nobre ao leite.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Gourmet' },
+  { id: '56', name: 'Brigadeiro Gourmet Branco', description: 'Chocolate nobre branco.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Gourmet' },
+  { id: '57', name: 'Brigadeiro Gourmet Meio Amargo', description: 'Chocolate nobre meio amargo.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Gourmet' },
+  { id: '58', name: 'Brigadeiro Gourmet Damasco com Coco', description: 'Uma combinação fina e requintada.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Gourmet' },
   
-  { id: '59', name: 'Brigadeiro Gourmet Ferrero', description: 'Inspirado no famoso bombom.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '60', name: 'Brigadeiro Gourmet Ouriço de Coco', description: 'Especialidade de coco.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '61', name: 'Brigadeiro Gourmet Pistache', description: 'O queridinho do momento.', basePrice: 4.50, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '59', name: 'Brigadeiro Gourmet Ferrero', description: 'Inspirado no famoso bombom.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Gourmet' },
+  { id: '60', name: 'Brigadeiro Gourmet Ouriço de Coco', description: 'Especialidade de coco.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Gourmet' },
+  { id: '61', name: 'Brigadeiro Gourmet Pistache', description: 'O queridinho do momento.', basePrice: 4.50, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Brigadeiros Gourmet' },
 
-  { id: '62', name: 'Doce Fino Joia de Nozes', description: 'Elegância em cada detalhe.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '63', name: 'Doce Fino Joia de Damasco', description: 'Sofisticação e sabor.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '64', name: 'Doce Fino Copinho de Cereja', description: 'Delicado copinho de chocolate com cereja.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '65', name: 'Doce Fino Copinho de Uva', description: 'Delicado copinho de chocolate com uva.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '66', name: 'Doce Fino Caixeta de Maracujá', description: 'Caixeta de chocolate com trufa de maracujá.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '67', name: 'Doce Fino Pirâmide de Coco', description: 'Chocolate nobre recheado com coco.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '62', name: 'Doce Fino Joia de Nozes', description: 'Elegância em cada detalhe.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Doces Finos' },
+  { id: '63', name: 'Doce Fino Joia de Damasco', description: 'Sofisticação e sabor.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Doces Finos' },
+  { id: '64', name: 'Doce Fino Copinho de Cereja', description: 'Delicado copinho de chocolate com cereja.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Doces Finos' },
+  { id: '65', name: 'Doce Fino Copinho de Uva', description: 'Delicado copinho de chocolate com uva.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Doces Finos' },
+  { id: '66', name: 'Doce Fino Caixeta de Maracujá', description: 'Caixeta de chocolate com trufa de maracujá.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Doces Finos' },
+  { id: '67', name: 'Doce Fino Pirâmide de Coco', description: 'Chocolate nobre recheado com coco.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Doces Finos' },
 
-  { id: '68', name: 'Doce Fino Caixeta de Morango', description: 'Caixeta de chocolate com morango.', basePrice: 6.00, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '68', name: 'Doce Fino Caixeta de Morango', description: 'Caixeta de chocolate com morango.', basePrice: 6.00, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Doces Finos' },
 
-  { id: '69', name: 'Doce Fino Coração de Physalis', description: 'Formato especial com physalis.', basePrice: 6.50, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '70', name: 'Doce Fino Caixeta de Frutas Vermelhas', description: 'Caixeta de chocolate com frutas vermelhas.', basePrice: 6.50, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '69', name: 'Doce Fino Coração de Physalis', description: 'Formato especial com physalis.', basePrice: 6.50, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Doces Finos' },
+  { id: '70', name: 'Doce Fino Caixeta de Frutas Vermelhas', description: 'Caixeta de chocolate com frutas vermelhas.', basePrice: 6.50, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Doces Finos' },
 
-  { id: '71', name: 'Coxinha de Morango (Brigadeiro Branco)', description: 'Morango envolto em brigadeiro branco.', basePrice: 5.00, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '72', name: 'Coxinha de Morango (Ao Leite)', description: 'Morango envolto em brigadeiro ao leite.', basePrice: 5.00, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '73', name: 'Coxinha de Morango (Meio Amargo)', description: 'Morango envolto em brigadeiro meio amargo.', basePrice: 5.00, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '74', name: 'Coxinha de Morango (Leite Ninho)', description: 'Morango envolto em brigadeiro de ninho.', basePrice: 5.00, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '71', name: 'Coxinha de Morango (Brigadeiro Branco)', description: 'Morango envolto em brigadeiro branco.', basePrice: 5.00, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Coxinha de Morango' },
+  { id: '72', name: 'Coxinha de Morango (Ao Leite)', description: 'Morango envolto em brigadeiro ao leite.', basePrice: 5.00, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Coxinha de Morango' },
+  { id: '73', name: 'Coxinha de Morango (Meio Amargo)', description: 'Morango envolto em brigadeiro meio amargo.', basePrice: 5.00, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Coxinha de Morango' },
+  { id: '74', name: 'Coxinha de Morango (Leite Ninho)', description: 'Morango envolto em brigadeiro de ninho.', basePrice: 5.00, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Coxinha de Morango' },
 
-  { id: '75', name: 'Bombom de Castanha', description: 'Chocolate e castanhas selecionadas.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '76', name: 'Bombom de Uva', description: 'Clássico bombom de uva.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '77', name: 'Bombom de Damasco com Coco', description: 'Damasco e coco envoltos em chocolate.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '78', name: 'Bombom de Coco', description: 'Bombom clássico de coco.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '79', name: 'Bombom de Amendoim', description: 'Crocante e delicioso.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '75', name: 'Bombom de Castanha', description: 'Chocolate e castanhas selecionadas.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Bombons' },
+  { id: '76', name: 'Bombom de Uva', description: 'Clássico bombom de uva.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Bombons' },
+  { id: '77', name: 'Bombom de Damasco com Coco', description: 'Damasco e coco envoltos em chocolate.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Bombons' },
+  { id: '78', name: 'Bombom de Coco', description: 'Bombom clássico de coco.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Bombons' },
+  { id: '79', name: 'Bombom de Amendoim', description: 'Crocante e delicioso.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Bombons' },
 
-  { id: '80', name: 'Bombom de Cereja', description: 'Bombom trufado de cereja.', basePrice: 3.50, image: 'https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '81', name: 'Bombom Romeu e Julieta', description: 'Goiabada e queijo no bombom.', basePrice: 3.50, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '82', name: 'Bombom de Pistache', description: 'O requinte do pistache.', basePrice: 3.50, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
-  { id: '83', name: 'Bombom Camafeu de Nozes', description: 'O mais tradicional dos casamentos.', basePrice: 3.50, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet' }
+  { id: '80', name: 'Bombom de Cereja', description: 'Bombom trufado de cereja.', basePrice: 3.50, image: 'https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Bombons' },
+  { id: '81', name: 'Bombom Romeu e Julieta', description: 'Goiabada e queijo no bombom.', basePrice: 3.50, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Bombons' },
+  { id: '82', name: 'Bombom de Pistache', description: 'O requinte do pistache.', basePrice: 3.50, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Bombons' },
+  { id: '83', name: 'Bombom Camafeu de Nozes', description: 'O mais tradicional dos casamentos.', basePrice: 3.50, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet', subCategory: 'Bombons' }
 ];
 
 const INITIAL_SETTINGS: StoreSettings = {
   isOpen: true,
 };
+
+function mergeProductsWithDefaults(storedProducts: Product[]) {
+  const storedProductsById = new Map(storedProducts.map((product) => [product.id, product]));
+
+  const mergedProducts = INITIAL_PRODUCTS.map((initialProduct) => {
+    const storedProduct = storedProductsById.get(initialProduct.id);
+
+    if (!storedProduct) {
+      return initialProduct;
+    }
+
+    return {
+      ...initialProduct,
+      ...storedProduct,
+      subCategory: storedProduct.subCategory ?? initialProduct.subCategory,
+      caseirinhoMetadata: storedProduct.caseirinhoMetadata ?? initialProduct.caseirinhoMetadata,
+      poolCakeMetadata: storedProduct.poolCakeMetadata ?? initialProduct.poolCakeMetadata,
+      vulcaoMetadata: storedProduct.vulcaoMetadata ?? initialProduct.vulcaoMetadata,
+      recheadoMetadata: storedProduct.recheadoMetadata ?? initialProduct.recheadoMetadata,
+      sweetMetadata: storedProduct.sweetMetadata ?? initialProduct.sweetMetadata,
+    };
+  });
+
+  const extraProducts = storedProducts.filter(
+    (storedProduct) => !INITIAL_PRODUCTS.some((initialProduct) => initialProduct.id === storedProduct.id)
+  );
+
+  return [...mergedProducts, ...extraProducts];
+}
 
 export function useData() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -345,14 +376,17 @@ export function useData() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedProducts = localStorage.getItem('@cassia:products_v9');
+    const storedProducts = localStorage.getItem(PRODUCTS_STORAGE_KEY) ?? localStorage.getItem('@cassia:products_v9');
     const storedSettings = localStorage.getItem('@cassia:settings');
 
     if (storedProducts) {
-      setProducts(JSON.parse(storedProducts));
+      const parsedProducts = JSON.parse(storedProducts) as Product[];
+      const mergedProducts = mergeProductsWithDefaults(parsedProducts);
+      setProducts(mergedProducts);
+      localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(mergedProducts));
     } else {
       setProducts(INITIAL_PRODUCTS);
-      localStorage.setItem('@cassia:products_v9', JSON.stringify(INITIAL_PRODUCTS));
+      localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(INITIAL_PRODUCTS));
     }
 
     if (storedSettings) {
@@ -369,13 +403,13 @@ export function useData() {
   const updateProduct = (updatedProduct: Product) => {
     const newProducts = products.map(p => p.id === updatedProduct.id ? updatedProduct : p);
     setProducts(newProducts);
-    localStorage.setItem('@cassia:products_v9', JSON.stringify(newProducts));
+    localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(newProducts));
   };
 
   const toggleProductAvailability = (id: string) => {
     const newProducts = products.map(p => p.id === id ? { ...p, isAvailable: !p.isAvailable } : p);
     setProducts(newProducts);
-    localStorage.setItem('@cassia:products_v9', JSON.stringify(newProducts));
+    localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(newProducts));
   };
 
   const updateSettings = (newSettings: StoreSettings) => {

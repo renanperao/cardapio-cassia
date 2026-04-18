@@ -40,6 +40,7 @@ export interface Product {
   image: string;
   isAvailable: boolean;
   category: ProductCategory;
+  subCategory?: string;
   caseirinhoMetadata?: CaseirinhoMetadata;
   poolCakeMetadata?: PoolCakeMetadata;
   vulcaoMetadata?: VulcaoMetadata;

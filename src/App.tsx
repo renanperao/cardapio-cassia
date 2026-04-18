@@ -11,6 +11,13 @@ function App() {
   const cart = useCart();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
+  const sweetSubcategoryOrder = [
+    'Brigadeiros Tradicionais',
+    'Brigadeiros Gourmet',
+    'Doces Finos',
+    'Coxinha de Morango',
+    'Bombons',
+  ];
 
   const cakes = products.filter(p => p.category === 'cake' && (activeCategory === 'all' || activeCategory === 'cake'));
   const caseirinhos = products.filter(p => p.category === 'caseirinhos' && (activeCategory === 'all' || activeCategory === 'caseirinhos'));
@@ -18,6 +25,24 @@ function App() {
   const vulcaoCakes = products.filter(p => p.category === 'vulcao' && (activeCategory === 'all' || activeCategory === 'vulcao'));
   const recheados = products.filter(p => p.category === 'recheado' && (activeCategory === 'all' || activeCategory === 'recheado'));
   const sweets = products.filter(p => p.category === 'sweet' && (activeCategory === 'all' || activeCategory === 'sweet'));
+  const groupedSweets = sweets.reduce<Record<string, Product[]>>((groups, product) => {
+    const key = product.subCategory ?? 'Doces';
+
+    if (!groups[key]) {
+      groups[key] = [];
+    }
+
+    groups[key].push(product);
+    return groups;
+  }, {});
+  const groupedSweetEntries = Object.entries(groupedSweets).sort(([a], [b]) => {
+    const indexA = sweetSubcategoryOrder.indexOf(a);
+    const indexB = sweetSubcategoryOrder.indexOf(b);
+    const safeIndexA = indexA === -1 ? Number.MAX_SAFE_INTEGER : indexA;
+    const safeIndexB = indexB === -1 ? Number.MAX_SAFE_INTEGER : indexB;
+
+    return safeIndexA - safeIndexB || a.localeCompare(b);
+  });
 
   const categories = [
     { id: 'all', label: 'Tudo' },
@@ -193,26 +218,37 @@ function App() {
               <span className="h-px bg-stone-200 flex-grow" />
             </h2>
           
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              {loading 
+            <div className="space-y-8">
+              {loading
                 ? Array(6).fill(0).map((_, i) => <div key={i} className="h-20 bg-stone-100 animate-pulse rounded-2xl" />)
-                : sweets.map(product => (
-                    <button 
-                      key={product.id}
-                      onClick={() => setSelectedProduct(product)}
-                      className="group flex items-center gap-4 bg-white p-3 rounded-2xl border border-stone-100 shadow-sm hover:shadow-md hover:border-brand-200 transition-all text-left w-full"
-                    >
-                      <img 
-                        src={product.image} 
-                        alt={product.name} 
-                        className="w-16 h-16 rounded-xl object-cover bg-stone-50"
-                      />
-                      <div className="flex-grow">
-                        <h3 className="font-semibold text-stone-800 group-hover:text-brand-700 transition-colors">{product.name}</h3>
-                        <p className="text-xs text-stone-500 line-clamp-1">{product.description}</p>
-                        <p className="text-sm font-bold text-brand-700 mt-1">R$ {product.basePrice.toFixed(2)} / un</p>
+                : groupedSweetEntries.map(([subCategory, products]) => (
+                    <div key={subCategory} className="space-y-4">
+                      <div className="flex items-center gap-4 rounded-2xl border border-stone-200 bg-[#f7f1e8] px-4 py-3">
+                        <h3 className="font-serif text-lg font-semibold text-stone-800">{subCategory}</h3>
+                        <span className="h-px flex-grow bg-stone-300" />
                       </div>
-                    </button>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        {products.map(product => (
+                          <button 
+                            key={product.id}
+                            onClick={() => setSelectedProduct(product)}
+                            className="group flex items-center gap-4 bg-white p-3 rounded-2xl border border-stone-100 shadow-sm hover:shadow-md hover:border-brand-200 transition-all text-left w-full"
+                          >
+                            <img 
+                              src={product.image} 
+                              alt={product.name} 
+                              className="w-16 h-16 rounded-xl object-cover bg-stone-50"
+                            />
+                            <div className="flex-grow">
+                              <h3 className="font-semibold text-stone-800 group-hover:text-brand-700 transition-colors">{product.name}</h3>
+                              <p className="text-xs text-stone-500 line-clamp-1">{product.description}</p>
+                              <p className="text-sm font-bold text-brand-700 mt-1">R$ {product.basePrice.toFixed(2)} / un</p>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   ))
               }
             </div>
