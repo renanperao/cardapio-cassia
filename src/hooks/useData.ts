@@ -351,12 +351,15 @@ function mergeProductsWithDefaults(storedProducts: Product[]) {
       return initialProduct;
     }
 
-    const shouldUseGeneratedImage = initialProduct.image.startsWith('/generated/');
+    // Use stored image if it was explicitly customized (differs from the initial default)
+    const imageToUse = storedProduct.image !== initialProduct.image
+      ? storedProduct.image
+      : initialProduct.image;
 
     return {
       ...initialProduct,
       ...storedProduct,
-      image: shouldUseGeneratedImage ? initialProduct.image : storedProduct.image,
+      image: imageToUse,
       subCategory: storedProduct.subCategory ?? initialProduct.subCategory,
       caseirinhoMetadata: storedProduct.caseirinhoMetadata ?? initialProduct.caseirinhoMetadata,
       poolCakeMetadata: storedProduct.poolCakeMetadata ?? initialProduct.poolCakeMetadata,
