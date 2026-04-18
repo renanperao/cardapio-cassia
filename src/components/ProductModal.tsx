@@ -132,19 +132,25 @@ export function ProductModal({ product, onClose, onAddToCart }: ProductModalProp
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-stone-900/40 backdrop-blur-sm transition-opacity">
-      <div className="bg-white w-full max-w-lg rounded-t-2xl sm:rounded-2xl overflow-hidden shadow-xl animate-in slide-in-from-bottom-4 sm:slide-in-from-bottom-0 sm:fade-in-0 duration-300">
-        <div className="relative h-64 sm:h-72 w-full bg-stone-100">
-          <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+    <div 
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-stone-900/40 backdrop-blur-sm transition-opacity"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <div className="bg-white w-full max-w-lg rounded-t-2xl sm:rounded-2xl overflow-hidden shadow-xl animate-in slide-in-from-bottom-4 sm:slide-in-from-bottom-0 sm:fade-in-0 duration-300 flex flex-col max-h-[92dvh] sm:max-h-[90vh]">
+        <div className="relative h-52 sm:h-64 w-full bg-stone-100 flex-shrink-0">
+          <img src={product.image} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 bg-white/80 backdrop-blur p-2 rounded-full text-stone-800 hover:bg-white transition-colors"
+            aria-label="Fechar"
+            className="absolute top-4 right-4 bg-white/80 backdrop-blur p-2 rounded-full text-stone-800 hover:bg-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
             <X size={20} />
           </button>
+          {/* Drag handle indicator for mobile */}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 bg-white/60 rounded-full sm:hidden" />
         </div>
         
-        <div className="p-6 overflow-y-auto max-h-[60vh]">
+        <div className="p-5 sm:p-6 overflow-y-auto flex-1 overscroll-contain">
           <h2 className="font-serif text-2xl font-bold text-stone-800 mb-2">{product.name}</h2>
           <p className="text-stone-500 mb-6">{product.description}</p>
           
@@ -340,14 +346,14 @@ export function ProductModal({ product, onClose, onAddToCart }: ProductModalProp
                   <div className="flex items-center gap-4 bg-stone-50 rounded-xl p-1 border border-stone-100 max-w-[200px]">
                     <button 
                       onClick={() => setRecheadoKg(Math.max(product.recheadoMetadata!.minKg, recheadoKg - 0.5))}
-                      className="w-10 h-10 flex items-center justify-center rounded-lg text-stone-500 hover:bg-white hover:shadow-sm transition-all"
+                      className="w-11 h-11 flex items-center justify-center rounded-lg text-stone-500 hover:bg-white hover:shadow-sm transition-all text-lg"
                     >
                       -
                     </button>
                     <span className="flex-1 text-center font-medium text-stone-800">{recheadoKg.toFixed(1)} kg</span>
                     <button 
                       onClick={() => setRecheadoKg(recheadoKg + 0.5)}
-                      className="w-10 h-10 flex items-center justify-center rounded-lg text-stone-500 hover:bg-white hover:shadow-sm transition-all"
+                      className="w-11 h-11 flex items-center justify-center rounded-lg text-stone-500 hover:bg-white hover:shadow-sm transition-all text-lg"
                     >
                       +
                     </button>
@@ -424,14 +430,14 @@ export function ProductModal({ product, onClose, onAddToCart }: ProductModalProp
             <div className="flex items-center gap-4 bg-stone-50 rounded-xl p-1 border border-stone-100">
               <button 
                 onClick={() => setQuantity(Math.max(product.category === 'sweet' ? 25 : 1, quantity - (product.category === 'sweet' ? 25 : 1)))}
-                className="w-10 h-10 flex items-center justify-center rounded-lg text-stone-500 hover:bg-white hover:shadow-sm transition-all"
+                className="w-11 h-11 flex items-center justify-center rounded-lg text-stone-500 hover:bg-white hover:shadow-sm transition-all text-lg"
               >
                 -
               </button>
               <span className="w-8 text-center font-medium text-stone-800">{quantity}</span>
               <button 
                 onClick={() => setQuantity(quantity + (product.category === 'sweet' ? 25 : 1))}
-                className="w-10 h-10 flex items-center justify-center rounded-lg text-stone-500 hover:bg-white hover:shadow-sm transition-all"
+                className="w-11 h-11 flex items-center justify-center rounded-lg text-stone-500 hover:bg-white hover:shadow-sm transition-all text-lg"
               >
                 +
               </button>

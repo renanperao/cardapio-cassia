@@ -23,7 +23,13 @@ export default {
           800: '#714d3b',
           900: '#5c4033',
         }
-      }
+      },
+      height: {
+        'screen-dvh': '100dvh',
+      },
+      minHeight: {
+        'screen-dvh': '100dvh',
+      },
     },
   },
   plugins: [],

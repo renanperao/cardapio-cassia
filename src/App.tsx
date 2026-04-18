@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { ShoppingBag, ChevronRight, X } from 'lucide-react';
 import { useData } from './hooks/useData';
 import { useCart } from './hooks/useCart';
@@ -53,9 +53,16 @@ function App() {
     { id: 'sweet', label: 'Doces Finos' },
   ];
 
+  const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
+
   const handleCategoryClick = (categoryId: string) => {
     setActiveCategory(categoryId);
-    window.scrollTo({ top: 280, behavior: 'smooth' }); // Adjust pixel value to roughly where the sticky nav is
+    // Scroll to the sticky nav itself
+    const nav = document.getElementById('category-nav');
+    if (nav) {
+      const offset = nav.getBoundingClientRect().top + window.scrollY - 1;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -79,7 +86,7 @@ function App() {
       </header>
 
       {/* Category Navigation */}
-      <nav className="sticky top-0 z-40 bg-[#fcf9f5]/90 backdrop-blur-md pb-4 pt-4 mb-8 border-b border-stone-200">
+      <nav id="category-nav" className="sticky top-0 z-40 bg-[#fcf9f5]/90 backdrop-blur-md pb-4 pt-4 mb-8 border-b border-stone-200">
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex overflow-x-auto md:flex-wrap md:justify-center hide-scrollbar gap-3 pb-1">
             {categories.map((cat) => (
@@ -233,15 +240,13 @@ function App() {
                           <button 
                             key={product.id}
                             onClick={() => setSelectedProduct(product)}
-                            className="group flex items-center gap-4 bg-white p-3 rounded-2xl border border-stone-100 shadow-sm hover:shadow-md hover:border-brand-200 transition-all text-left w-full"
+                            className="group flex items-center gap-4 bg-white p-3 rounded-2xl border border-stone-100 shadow-sm hover:shadow-md hover:border-brand-200 transition-all text-left w-full active:scale-[0.98]"
                           >
-                            <img 
-                              src={product.image} 
-                              alt={product.name} 
-                              className="w-16 h-16 rounded-xl object-cover bg-stone-50"
-                            />
-                            <div className="flex-grow">
-                              <h3 className="font-semibold text-stone-800 group-hover:text-brand-700 transition-colors">{product.name}</h3>
+                            <div className="w-14 h-14 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center flex-shrink-0 text-2xl">
+                              🍫
+                            </div>
+                            <div className="flex-grow min-w-0">
+                              <h3 className="font-semibold text-stone-800 group-hover:text-brand-700 transition-colors truncate">{product.name}</h3>
                               <p className="text-xs text-stone-500 line-clamp-1">{product.description}</p>
                               <p className="text-sm font-bold text-brand-700 mt-1">R$ {product.basePrice.toFixed(2)} / un</p>
                             </div>
@@ -269,33 +274,41 @@ function App() {
       {cart.items.length > 0 && !cart.isCartOpen && (
         <button 
           onClick={() => cart.setIsCartOpen(true)}
-          className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 bg-brand-800 text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all z-40 flex items-center gap-3 animate-in fade-in slide-in-from-bottom-8 duration-300"
+          aria-label={`Ver carrinho com ${cart.items.length} ${cart.items.length === 1 ? 'item' : 'itens'}`}
+          className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 bg-brand-800 text-white pl-4 pr-5 py-3 rounded-full shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all z-40 flex items-center gap-3 animate-in fade-in slide-in-from-bottom-8 duration-300"
+          style={{ bottom: 'max(1.5rem, calc(env(safe-area-inset-bottom) + 1rem))' }}
         >
           <div className="relative">
-            <ShoppingBag size={24} />
+            <ShoppingBag size={22} />
             <span className="absolute -top-2 -right-2 bg-white text-brand-900 text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-sm">
               {cart.items.length}
             </span>
           </div>
-          <span className="font-medium pr-2 hidden sm:block">Ver Carrinho</span>
+          <span className="font-medium text-sm">
+            Ver Carrinho · <span className="font-bold">R$ {cart.totalCartPrice.toFixed(2)}</span>
+          </span>
         </button>
       )}
 
       {/* Cart Drawer Overlay */}
       {cart.isCartOpen && (
-        <div className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-50 transition-opacity flex justify-end">
-          <div className="bg-white w-full max-w-md h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
-            <div className="p-6 border-b border-stone-100 flex items-center justify-between">
+        <div 
+          className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-50 transition-opacity flex justify-end"
+          onClick={(e) => e.target === e.currentTarget && cart.setIsCartOpen(false)}
+        >
+          <div className="bg-white w-full sm:max-w-md h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300" style={{ height: '100dvh' }}>
+            <div className="p-5 sm:p-6 border-b border-stone-100 flex items-center justify-between">
               <h2 className="font-serif text-2xl font-bold text-stone-800">Carrinho</h2>
               <button 
                 onClick={() => cart.setIsCartOpen(false)}
-                className="text-stone-400 hover:text-stone-800 transition-colors"
+                aria-label="Fechar carrinho"
+                className="text-stone-400 hover:text-stone-800 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
               >
                 <X size={24} />
               </button>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto p-5 sm:p-6 overscroll-contain">
               {cart.items.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-stone-400">
                   <ShoppingBag size={48} className="mb-4 opacity-20" />
@@ -305,14 +318,15 @@ function App() {
                 <div className="space-y-6">
                   {cart.items.map((item) => (
                     <div key={item.id} className="flex gap-4">
-                      <img src={item.product.image} alt={item.product.name} className="w-20 h-20 object-cover rounded-lg bg-stone-100" />
-                      <div className="flex-1 flex flex-col justify-between">
+                      <img src={item.product.image} alt={item.product.name} className="w-20 h-20 object-cover rounded-lg bg-stone-100 flex-shrink-0" />
+                      <div className="flex-1 flex flex-col justify-between min-w-0">
                         <div>
                           <div className="flex justify-between items-start mb-1">
-                            <h4 className="font-medium text-stone-800 leading-tight pr-4">{item.product.name}</h4>
+                            <h4 className="font-medium text-stone-800 leading-tight pr-2 truncate">{item.product.name}</h4>
                             <button 
                               onClick={() => cart.removeItem(item.id)}
-                              className="text-stone-400 hover:text-red-500 transition-colors p-1 -mr-1"
+                              aria-label={`Remover ${item.product.name}`}
+                              className="text-stone-400 hover:text-red-500 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center flex-shrink-0 -mr-2"
                             >
                               <X size={16} />
                             </button>
@@ -333,8 +347,8 @@ function App() {
               )}
             </div>
             
-            <div className="p-6 border-t border-stone-100 bg-stone-50">
-              <div className="flex items-center justify-between mb-6">
+            <div className="p-5 sm:p-6 border-t border-stone-100 bg-stone-50" style={{ paddingBottom: 'max(1.25rem, env(safe-area-inset-bottom))' }}>
+              <div className="flex items-center justify-between mb-5">
                 <span className="text-stone-600 font-medium">Total</span>
                 <span className="font-serif text-2xl font-bold text-stone-900">
                   R$ {cart.totalCartPrice.toFixed(2)}
@@ -343,7 +357,7 @@ function App() {
               <button 
                 disabled={cart.items.length === 0 || !settings.isOpen}
                 onClick={cart.checkout}
-                className="w-full bg-green-600 hover:bg-green-700 disabled:bg-stone-300 disabled:cursor-not-allowed text-white py-4 rounded-xl font-medium transition-colors shadow-sm flex items-center justify-center gap-2"
+                className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 disabled:bg-stone-300 disabled:cursor-not-allowed text-white py-4 rounded-xl font-medium transition-colors shadow-sm flex items-center justify-center gap-2 text-base"
               >
                 {!settings.isOpen ? 'Fechado no momento' : 'Finalizar via WhatsApp'}
                 {settings.isOpen && <ChevronRight size={20} />}

@@ -1,9 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CartItem } from '../types';
 
+const CART_STORAGE_KEY = '@cassia:cart';
+
+function loadCartFromStorage(): CartItem[] {
+  try {
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+}
+
 export function useCart() {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(loadCartFromStorage);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Persist cart to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+    } catch {
+      // Ignore storage errors (e.g. private mode quota)
+    }
+  }, [items]);
 
   const addItem = (item: CartItem) => {
     setItems(prev => [...prev, item]);
@@ -71,7 +91,7 @@ export function useCart() {
 
   const checkout = () => {
     const message = generateWhatsAppMessage();
-    const phone = '554896726149'; // Replace with actual phone
+    const phone = '554896726149';
     window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
     clearCart();
     setIsCartOpen(false);
