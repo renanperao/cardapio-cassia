@@ -1,3 +1,16 @@
+export type ProductCategory = 'cake' | 'sweet' | 'caseirinhos';
+
+export interface CaseirinhoMetadata {
+  isMilho?: boolean;
+  isChocolate?: boolean;
+  hasNoIcing?: boolean;
+  icingName?: string;
+  priceM: number;
+  priceG: number;
+  icingPriceM: number;
+  icingPriceG: number;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -5,7 +18,8 @@ export interface Product {
   basePrice: number;
   image: string;
   isAvailable: boolean;
-  category: 'cake' | 'sweet';
+  category: ProductCategory;
+  caseirinhoMetadata?: CaseirinhoMetadata;
 }
 
 export interface StoreSettings {
@@ -13,13 +27,15 @@ export interface StoreSettings {
 }
 
 export type CakeSize = 'P' | 'M' | 'G';
+export type CaseirinhoSize = 'M' | 'G';
 export type IcingOption = 'Com' | 'Sem';
 
 export interface CartItem {
   id: string;
   product: Product;
   quantity: number;
-  size?: CakeSize;
+  size?: CakeSize | CaseirinhoSize;
   icing?: IcingOption;
+  caseirinhoIcingFlavor?: string; // e.g. "Chocolate", "Leite Ninho", "Goiabada", "Requeijão"
   totalPrice: number;
 }

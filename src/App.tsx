@@ -13,6 +13,7 @@ function App() {
 
   const cakes = products.filter(p => p.category === 'cake');
   const sweets = products.filter(p => p.category === 'sweet');
+  const caseirinhos = products.filter(p => p.category === 'caseirinhos');
 
   return (
     <div className="min-h-screen pb-32">
@@ -36,8 +37,9 @@ function App() {
 
       {/* Main Content */}
       <main className="max-w-5xl mx-auto px-6">
-        <section className="mb-16">
-          <h2 className="font-serif text-2xl font-bold text-stone-800 mb-8 flex items-center gap-4">
+        {cakes.length > 0 && (
+          <section className="mb-16">
+            <h2 className="font-serif text-2xl font-bold text-stone-800 mb-8 flex items-center gap-4">
             Bolos Artesanais
             <span className="h-px bg-stone-200 flex-grow" />
           </h2>
@@ -53,11 +55,35 @@ function App() {
                   />
                 ))
             }
-          </div>
-        </section>
+            </div>
+          </section>
+        )}
 
-        <section>
-          <h2 className="font-serif text-2xl font-bold text-stone-800 mb-8 flex items-center gap-4">
+        {caseirinhos.length > 0 && (
+          <section className="mb-16">
+            <h2 className="font-serif text-2xl font-bold text-stone-800 mb-8 flex items-center gap-4">
+              Caseirinhos
+              <span className="h-px bg-stone-200 flex-grow" />
+            </h2>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {loading 
+                ? Array(3).fill(0).map((_, i) => <ProductSkeleton key={i} />)
+                : caseirinhos.map(product => (
+                    <ProductCard 
+                      key={product.id} 
+                      product={product} 
+                      onSelect={setSelectedProduct} 
+                    />
+                  ))
+              }
+            </div>
+          </section>
+        )}
+
+        {sweets.length > 0 && (
+          <section>
+            <h2 className="font-serif text-2xl font-bold text-stone-800 mb-8 flex items-center gap-4">
             Doces
             <span className="h-px bg-stone-200 flex-grow" />
           </h2>
@@ -73,8 +99,9 @@ function App() {
                   />
                 ))
             }
-          </div>
-        </section>
+            </div>
+          </section>
+        )}
       </main>
 
       {/* Modals & Cart */}
@@ -139,7 +166,9 @@ function App() {
                             </button>
                           </div>
                           <p className="text-xs text-stone-500">
-                            {item.quantity}x • {item.size && `Tamanho ${item.size}`}{item.icing && ` • ${item.icing} Cob.`}
+                            {item.quantity}x • {item.size && `Tamanho ${item.size}`}
+                            {item.product.category !== 'caseirinhos' && item.icing && ` • ${item.icing} Cob.`}
+                            {item.product.category === 'caseirinhos' && item.caseirinhoIcingFlavor && ` • Sabor: ${item.caseirinhoIcingFlavor}`}
                           </p>
                         </div>
                         <p className="font-semibold text-brand-800">

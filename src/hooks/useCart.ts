@@ -25,11 +25,23 @@ export function useCart() {
     let message = 'Olá, Cassia! Gostaria de encomendar:\n\n';
     
     items.forEach(item => {
-      let details = '';
-      if (item.size) details += ` Tamanho ${item.size}`;
-      if (item.icing) details += `, ${item.icing === 'Com' ? 'Com cobertura' : 'Sem cobertura'}`;
-      
-      message += `${item.quantity}x ${item.product.name}${details ? ` (${details.trim()})` : ''} - R$ ${item.totalPrice.toFixed(2)}\n`;
+      if (item.product.category === 'caseirinhos') {
+        let line = `${item.quantity}x ${item.product.name} [Tamanho ${item.size}]`;
+        if (item.caseirinhoIcingFlavor) {
+          if (item.product.caseirinhoMetadata?.isMilho) {
+            line += ` (Sabor: ${item.caseirinhoIcingFlavor})`;
+          } else {
+            line += ` com Cobertura de ${item.caseirinhoIcingFlavor}`;
+          }
+        }
+        message += `${line} - R$ ${item.totalPrice.toFixed(2)}\n`;
+      } else {
+        let details = '';
+        if (item.size) details += ` Tamanho ${item.size}`;
+        if (item.icing) details += `, ${item.icing === 'Com' ? 'Com cobertura' : 'Sem cobertura'}`;
+        
+        message += `${item.quantity}x ${item.product.name}${details ? ` (${details.trim()})` : ''} - R$ ${item.totalPrice.toFixed(2)}\n`;
+      }
     });
     
     message += `\n*Total: R$ ${totalCartPrice.toFixed(2)}*`;
