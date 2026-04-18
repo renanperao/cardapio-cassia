@@ -1,4 +1,4 @@
-export type ProductCategory = 'cake' | 'sweet' | 'caseirinhos';
+export type ProductCategory = 'cake' | 'sweet' | 'caseirinhos' | 'pool-cake' | 'vulcao' | 'recheado';
 
 export interface CaseirinhoMetadata {
   isMilho?: boolean;
@@ -11,6 +11,27 @@ export interface CaseirinhoMetadata {
   icingPriceG: number;
 }
 
+export interface PoolCakeMetadata {
+  priceM: number;
+  priceG: number;
+}
+
+export interface VulcaoMetadata {
+  priceM: number;
+  priceG: number;
+}
+
+export interface RecheadoMetadata {
+  pricePerKg: number;
+  minKg: number;
+  hasFinishingOptions: boolean;
+  isBrigadeiroGourmet?: boolean;
+}
+
+export interface SweetMetadata {
+  isTradicional?: boolean;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -20,6 +41,10 @@ export interface Product {
   isAvailable: boolean;
   category: ProductCategory;
   caseirinhoMetadata?: CaseirinhoMetadata;
+  poolCakeMetadata?: PoolCakeMetadata;
+  vulcaoMetadata?: VulcaoMetadata;
+  recheadoMetadata?: RecheadoMetadata;
+  sweetMetadata?: SweetMetadata;
 }
 
 export interface StoreSettings {
@@ -37,5 +62,9 @@ export interface CartItem {
   size?: CakeSize | CaseirinhoSize;
   icing?: IcingOption;
   caseirinhoIcingFlavor?: string; // e.g. "Chocolate", "Leite Ninho", "Goiabada", "Requeijão"
+  recheadoKg?: number;
+  recheadoFinishing?: string;
+  recheadoHasStrawberry?: boolean;
+  sweetShape?: boolean;
   totalPrice: number;
 }

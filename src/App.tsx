@@ -10,10 +10,28 @@ function App() {
   const { products, settings, loading } = useData();
   const cart = useCart();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>('all');
 
-  const cakes = products.filter(p => p.category === 'cake');
-  const sweets = products.filter(p => p.category === 'sweet');
-  const caseirinhos = products.filter(p => p.category === 'caseirinhos');
+  const cakes = products.filter(p => p.category === 'cake' && (activeCategory === 'all' || activeCategory === 'cake'));
+  const caseirinhos = products.filter(p => p.category === 'caseirinhos' && (activeCategory === 'all' || activeCategory === 'caseirinhos'));
+  const poolCakes = products.filter(p => p.category === 'pool-cake' && (activeCategory === 'all' || activeCategory === 'pool-cake'));
+  const vulcaoCakes = products.filter(p => p.category === 'vulcao' && (activeCategory === 'all' || activeCategory === 'vulcao'));
+  const recheados = products.filter(p => p.category === 'recheado' && (activeCategory === 'all' || activeCategory === 'recheado'));
+  const sweets = products.filter(p => p.category === 'sweet' && (activeCategory === 'all' || activeCategory === 'sweet'));
+
+  const categories = [
+    { id: 'all', label: 'Tudo' },
+    { id: 'caseirinhos', label: 'Caseirinhos' },
+    { id: 'pool-cake', label: 'Pool Cakes' },
+    { id: 'vulcao', label: 'Bolos Vulcão' },
+    { id: 'recheado', label: 'Bolos Recheados' },
+    { id: 'sweet', label: 'Doces Finos' },
+  ];
+
+  const handleCategoryClick = (categoryId: string) => {
+    setActiveCategory(categoryId);
+    window.scrollTo({ top: 280, behavior: 'smooth' }); // Adjust pixel value to roughly where the sticky nav is
+  };
 
   return (
     <div className="min-h-screen pb-32">
@@ -35,6 +53,27 @@ function App() {
         </p>
       </header>
 
+      {/* Category Navigation */}
+      <nav className="sticky top-0 z-40 bg-[#fcf9f5]/90 backdrop-blur-md pb-4 pt-4 mb-8 border-b border-stone-200">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="flex overflow-x-auto md:flex-wrap md:justify-center hide-scrollbar gap-3 pb-1">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => handleCategoryClick(cat.id)}
+                className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-medium transition-all flex-shrink-0 ${
+                  activeCategory === cat.id
+                    ? 'bg-brand-800 text-white shadow-sm'
+                    : 'bg-white text-stone-600 border border-stone-200 hover:border-brand-300 hover:text-brand-700'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </nav>
+
       {/* Main Content */}
       <main className="max-w-5xl mx-auto px-6">
         {cakes.length > 0 && (
@@ -44,9 +83,9 @@ function App() {
             <span className="h-px bg-stone-200 flex-grow" />
           </h2>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
             {loading 
-              ? Array(3).fill(0).map((_, i) => <ProductSkeleton key={i} />)
+              ? Array(4).fill(0).map((_, i) => <ProductSkeleton key={i} />)
               : cakes.map(product => (
                   <ProductCard 
                     key={product.id} 
@@ -66,10 +105,76 @@ function App() {
               <span className="h-px bg-stone-200 flex-grow" />
             </h2>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
               {loading 
-                ? Array(3).fill(0).map((_, i) => <ProductSkeleton key={i} />)
+                ? Array(4).fill(0).map((_, i) => <ProductSkeleton key={i} />)
                 : caseirinhos.map(product => (
+                    <ProductCard 
+                      key={product.id} 
+                      product={product} 
+                      onSelect={setSelectedProduct} 
+                    />
+                  ))
+              }
+            </div>
+          </section>
+        )}
+
+        {poolCakes.length > 0 && (
+          <section className="mb-16">
+            <h2 className="font-serif text-2xl font-bold text-stone-800 mb-8 flex items-center gap-4">
+              Pool Cakes
+              <span className="h-px bg-stone-200 flex-grow" />
+            </h2>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
+              {loading 
+                ? Array(4).fill(0).map((_, i) => <ProductSkeleton key={i} />)
+                : poolCakes.map(product => (
+                    <ProductCard 
+                      key={product.id} 
+                      product={product} 
+                      onSelect={setSelectedProduct} 
+                    />
+                  ))
+              }
+            </div>
+          </section>
+        )}
+
+        {vulcaoCakes.length > 0 && (
+          <section className="mb-16">
+            <h2 className="font-serif text-2xl font-bold text-stone-800 mb-8 flex items-center gap-4">
+              Bolos Vulcão
+              <span className="h-px bg-stone-200 flex-grow" />
+            </h2>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
+              {loading 
+                ? Array(4).fill(0).map((_, i) => <ProductSkeleton key={i} />)
+                : vulcaoCakes.map(product => (
+                    <ProductCard 
+                      key={product.id} 
+                      product={product} 
+                      onSelect={setSelectedProduct} 
+                    />
+                  ))
+              }
+            </div>
+          </section>
+        )}
+
+        {recheados.length > 0 && (
+          <section className="mb-16">
+            <h2 className="font-serif text-2xl font-bold text-stone-800 mb-8 flex items-center gap-4">
+              Bolos Recheados
+              <span className="h-px bg-stone-200 flex-grow" />
+            </h2>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
+              {loading 
+                ? Array(4).fill(0).map((_, i) => <ProductSkeleton key={i} />)
+                : recheados.map(product => (
                     <ProductCard 
                       key={product.id} 
                       product={product} 
@@ -84,21 +189,32 @@ function App() {
         {sweets.length > 0 && (
           <section>
             <h2 className="font-serif text-2xl font-bold text-stone-800 mb-8 flex items-center gap-4">
-            Doces
-            <span className="h-px bg-stone-200 flex-grow" />
-          </h2>
+              Doces (Lotes)
+              <span className="h-px bg-stone-200 flex-grow" />
+            </h2>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {loading 
-              ? Array(3).fill(0).map((_, i) => <ProductSkeleton key={i} />)
-              : sweets.map(product => (
-                  <ProductCard 
-                    key={product.id} 
-                    product={product} 
-                    onSelect={setSelectedProduct} 
-                  />
-                ))
-            }
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              {loading 
+                ? Array(6).fill(0).map((_, i) => <div key={i} className="h-20 bg-stone-100 animate-pulse rounded-2xl" />)
+                : sweets.map(product => (
+                    <button 
+                      key={product.id}
+                      onClick={() => setSelectedProduct(product)}
+                      className="group flex items-center gap-4 bg-white p-3 rounded-2xl border border-stone-100 shadow-sm hover:shadow-md hover:border-brand-200 transition-all text-left w-full"
+                    >
+                      <img 
+                        src={product.image} 
+                        alt={product.name} 
+                        className="w-16 h-16 rounded-xl object-cover bg-stone-50"
+                      />
+                      <div className="flex-grow">
+                        <h3 className="font-semibold text-stone-800 group-hover:text-brand-700 transition-colors">{product.name}</h3>
+                        <p className="text-xs text-stone-500 line-clamp-1">{product.description}</p>
+                        <p className="text-sm font-bold text-brand-700 mt-1">R$ {product.basePrice.toFixed(2)} / un</p>
+                      </div>
+                    </button>
+                  ))
+              }
             </div>
           </section>
         )}

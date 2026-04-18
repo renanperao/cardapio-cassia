@@ -29,6 +29,17 @@ export function ProductModal({ product, onClose, onAddToCart }: ProductModalProp
   const [caseirinhoIcing, setCaseirinhoIcing] = useState<IcingOption>('Sem');
   const [caseirinhoFlavor, setCaseirinhoFlavor] = useState<string>('');
 
+  // Pool Cake states
+  const [poolCakeSize, setPoolCakeSize] = useState<CaseirinhoSize>('M');
+
+  // Recheado states
+  const [recheadoKg, setRecheadoKg] = useState<number>(1);
+  const [recheadoFinishing, setRecheadoFinishing] = useState<string>('');
+  const [recheadoHasStrawberry, setRecheadoHasStrawberry] = useState<boolean>(false);
+
+  // Sweet states
+  const [sweetShape, setSweetShape] = useState<boolean>(false);
+
   useEffect(() => {
     // Set initial defaults for Milho and Chocolate when product opens
     if (product.category === 'caseirinhos' && product.caseirinhoMetadata) {
@@ -39,7 +50,20 @@ export function ProductModal({ product, onClose, onAddToCart }: ProductModalProp
         setCaseirinhoFlavor('Chocolate');
       }
     }
-  }, [product.id]);
+
+    if (product.category === 'recheado' && product.recheadoMetadata) {
+      setRecheadoKg(product.recheadoMetadata.minKg);
+      setRecheadoFinishing('');
+      setRecheadoHasStrawberry(false);
+    }
+
+    if (product.category === 'sweet') {
+      setQuantity(25);
+      setSweetShape(false);
+    } else {
+      setQuantity(1);
+    }
+  }, [product]);
 
   useEffect(() => {
     let price = product.basePrice;
@@ -58,10 +82,23 @@ export function ProductModal({ product, onClose, onAddToCart }: ProductModalProp
         price = meta.priceG;
         if (caseirinhoIcing === 'Com') price += meta.icingPriceG;
       }
+    } else if (product.category === 'pool-cake' && product.poolCakeMetadata) {
+      price = poolCakeSize === 'M' ? product.poolCakeMetadata.priceM : product.poolCakeMetadata.priceG;
+    } else if (product.category === 'vulcao' && product.vulcaoMetadata) {
+      price = poolCakeSize === 'M' ? product.vulcaoMetadata.priceM : product.vulcaoMetadata.priceG;
+    } else if (product.category === 'recheado' && product.recheadoMetadata) {
+      price = product.recheadoMetadata.pricePerKg * recheadoKg;
+      if (recheadoHasStrawberry) {
+        price += 10;
+      }
+    } else if (product.category === 'sweet') {
+      if (sweetShape) {
+        price += 0.5;
+      }
     }
     
     setTotalPrice(price * quantity);
-  }, [product, cakeSize, cakeIcing, caseirinhoSize, caseirinhoIcing, quantity]);
+  }, [product, cakeSize, cakeIcing, caseirinhoSize, caseirinhoIcing, poolCakeSize, recheadoKg, recheadoHasStrawberry, sweetShape, quantity]);
 
   const handleAddToCart = () => {
     let finalFlavor = '';
@@ -82,9 +119,13 @@ export function ProductModal({ product, onClose, onAddToCart }: ProductModalProp
       id: crypto.randomUUID(),
       product,
       quantity,
-      size: product.category === 'cake' ? cakeSize : (product.category === 'caseirinhos' ? caseirinhoSize : undefined),
+      size: product.category === 'cake' ? cakeSize : (product.category === 'caseirinhos' ? caseirinhoSize : ((product.category === 'pool-cake' || product.category === 'vulcao') ? poolCakeSize : undefined)),
       icing: product.category === 'cake' ? cakeIcing : (product.category === 'caseirinhos' ? caseirinhoIcing : undefined),
       caseirinhoIcingFlavor: finalFlavor || undefined,
+      recheadoKg: product.category === 'recheado' ? recheadoKg : undefined,
+      recheadoFinishing: product.category === 'recheado' && product.recheadoMetadata?.hasFinishingOptions ? recheadoFinishing : undefined,
+      recheadoHasStrawberry: product.category === 'recheado' && product.recheadoMetadata?.isBrigadeiroGourmet ? recheadoHasStrawberry : undefined,
+      sweetShape: product.category === 'sweet' && product.sweetMetadata?.isTradicional ? sweetShape : undefined,
       totalPrice
     });
     onClose();
@@ -170,7 +211,11 @@ export function ProductModal({ product, onClose, onAddToCart }: ProductModalProp
                       }`}
                     >
                       {s}
-                      <span className="block text-xs font-normal opacity-70 mt-1">
+                      <span className="block text-[10px] sm:text-xs font-normal opacity-70 mt-1 leading-tight">
+                        {s === 'M' ? 'Aprox. 600g' : 'Aprox. 1kg'} <br />
+                        {s === 'M' ? '6 a 8 fatias' : '8 a 10 fatias'}
+                      </span>
+                      <span className="block text-xs font-semibold text-brand-700 mt-1">
                         R$ {(s === 'M' ? product.caseirinhoMetadata!.priceM : product.caseirinhoMetadata!.priceG).toFixed(2)}
                       </span>
                     </button>
@@ -249,19 +294,143 @@ export function ProductModal({ product, onClose, onAddToCart }: ProductModalProp
               )}
             </div>
           )}
+
+          {/* CATEGORIA: POOL CAKE E VULCÃO */}
+          {(product.category === 'pool-cake' || product.category === 'vulcao') && (
+            <div className="space-y-6 mb-8">
+              <div>
+                <h3 className="text-sm font-semibold text-stone-800 uppercase tracking-wider mb-3">Tamanho</h3>
+                <div className="flex gap-3">
+                  {(['M', 'G'] as CaseirinhoSize[]).map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => setPoolCakeSize(s)}
+                      className={`flex-1 py-3 px-4 rounded-xl border text-sm font-medium transition-all ${
+                        poolCakeSize === s 
+                          ? 'border-brand-500 bg-brand-50 text-brand-900' 
+                          : 'border-stone-200 text-stone-600 hover:border-stone-300'
+                      }`}
+                    >
+                      {s}
+                      {product.category === 'pool-cake' && (
+                        <span className="block text-[10px] sm:text-xs font-normal opacity-70 mt-1 leading-tight">
+                          {s === 'M' ? 'Aprox. 1kg' : 'Aprox. 1,5kg'} <br />
+                          {s === 'M' ? '8 a 10 fatias' : '10 a 15 fatias'}
+                        </span>
+                      )}
+                      <span className="block text-xs font-semibold text-brand-700 mt-1">
+                        R$ {(s === 'M' 
+                          ? (product.poolCakeMetadata?.priceM || product.vulcaoMetadata?.priceM)
+                          : (product.poolCakeMetadata?.priceG || product.vulcaoMetadata?.priceG)
+                        )?.toFixed(2)}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* CATEGORIA: RECHEADO */}
+          {product.category === 'recheado' && product.recheadoMetadata && (
+            <div className="space-y-6 mb-8">
+              <div>
+                <h3 className="text-sm font-semibold text-stone-800 uppercase tracking-wider mb-3">Peso (KG)</h3>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-4 bg-stone-50 rounded-xl p-1 border border-stone-100 max-w-[200px]">
+                    <button 
+                      onClick={() => setRecheadoKg(Math.max(product.recheadoMetadata!.minKg, recheadoKg - 0.5))}
+                      className="w-10 h-10 flex items-center justify-center rounded-lg text-stone-500 hover:bg-white hover:shadow-sm transition-all"
+                    >
+                      -
+                    </button>
+                    <span className="flex-1 text-center font-medium text-stone-800">{recheadoKg.toFixed(1)} kg</span>
+                    <button 
+                      onClick={() => setRecheadoKg(recheadoKg + 0.5)}
+                      className="w-10 h-10 flex items-center justify-center rounded-lg text-stone-500 hover:bg-white hover:shadow-sm transition-all"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <p className="text-xs text-stone-500">
+                    * Mínimo de {product.recheadoMetadata.minKg}kg. 1kg rende em média 10 a 12 fatias.
+                  </p>
+                </div>
+              </div>
+
+              {product.recheadoMetadata.hasFinishingOptions && (
+                <div>
+                  <h3 className="text-sm font-semibold text-stone-800 uppercase tracking-wider mb-3">Acabamento / Cobertura</h3>
+                  <div className="flex flex-col gap-2">
+                    {['Briganache', 'Buttercream', 'Chantilly', 'Chantininho', 'Nata'].map((finishing) => (
+                      <label key={finishing} className="flex items-center gap-3 p-3 border rounded-xl cursor-pointer hover:bg-stone-50 transition-colors">
+                        <input 
+                          type="radio" 
+                          name="recheadoFinishing" 
+                          checked={recheadoFinishing === finishing}
+                          onChange={() => setRecheadoFinishing(finishing)}
+                          className="text-brand-600 focus:ring-brand-500"
+                        />
+                        <span className="text-sm font-medium text-stone-800">{finishing}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {product.recheadoMetadata.isBrigadeiroGourmet && (
+                <div>
+                  <label className="flex items-center gap-3 p-3 border rounded-xl cursor-pointer bg-stone-50 hover:bg-stone-100 transition-colors">
+                    <input 
+                      type="checkbox" 
+                      checked={recheadoHasStrawberry}
+                      onChange={(e) => setRecheadoHasStrawberry(e.target.checked)}
+                      className="text-brand-600 focus:ring-brand-500 rounded"
+                    />
+                    <div>
+                      <span className="block text-sm font-medium text-stone-800">Adicionar Morango</span>
+                      <span className="block text-xs text-brand-700 font-semibold">+ R$ 10,00 fixo</span>
+                    </div>
+                  </label>
+                </div>
+              )}
+            </div>
+          )}
+          {/* CATEGORIA: SWEET (DOCES) */}
+          {product.category === 'sweet' && product.sweetMetadata?.isTradicional && (
+            <div className="space-y-6 mb-8">
+              <div>
+                <h3 className="text-sm font-semibold text-stone-800 uppercase tracking-wider mb-3">Opcionais</h3>
+                <label className="flex items-center gap-3 p-3 border rounded-xl cursor-pointer bg-stone-50 hover:bg-stone-100 transition-colors">
+                  <input 
+                    type="checkbox" 
+                    checked={sweetShape}
+                    onChange={(e) => setSweetShape(e.target.checked)}
+                    className="text-brand-600 focus:ring-brand-500 rounded"
+                  />
+                  <div>
+                    <span className="block text-sm font-medium text-stone-800">Formato de Flor ou Coração</span>
+                    <span className="block text-xs text-brand-700 font-semibold">+ R$ 0,50 por unidade</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          )}
           
           <div className="flex items-center justify-between mb-8">
-            <h3 className="text-sm font-semibold text-stone-800 uppercase tracking-wider">Quantidade</h3>
+            <h3 className="text-sm font-semibold text-stone-800 uppercase tracking-wider">
+              Quantidade {product.category === 'sweet' && '(Lotes de 25)'}
+            </h3>
             <div className="flex items-center gap-4 bg-stone-50 rounded-xl p-1 border border-stone-100">
               <button 
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                onClick={() => setQuantity(Math.max(product.category === 'sweet' ? 25 : 1, quantity - (product.category === 'sweet' ? 25 : 1)))}
                 className="w-10 h-10 flex items-center justify-center rounded-lg text-stone-500 hover:bg-white hover:shadow-sm transition-all"
               >
                 -
               </button>
-              <span className="w-4 text-center font-medium text-stone-800">{quantity}</span>
+              <span className="w-8 text-center font-medium text-stone-800">{quantity}</span>
               <button 
-                onClick={() => setQuantity(quantity + 1)}
+                onClick={() => setQuantity(quantity + (product.category === 'sweet' ? 25 : 1))}
                 className="w-10 h-10 flex items-center justify-center rounded-lg text-stone-500 hover:bg-white hover:shadow-sm transition-all"
               >
                 +
@@ -271,10 +440,18 @@ export function ProductModal({ product, onClose, onAddToCart }: ProductModalProp
           
           <button 
             onClick={handleAddToCart}
-            className="w-full bg-brand-800 hover:bg-brand-900 text-white py-4 rounded-xl font-medium transition-colors shadow-sm flex items-center justify-between px-6"
+            disabled={product.category === 'recheado' && product.recheadoMetadata?.hasFinishingOptions && !recheadoFinishing}
+            className="w-full bg-brand-800 hover:bg-brand-900 disabled:bg-stone-300 disabled:cursor-not-allowed text-white py-4 rounded-xl font-medium transition-colors shadow-sm flex items-center justify-between px-6"
           >
             <span>Adicionar ao carrinho</span>
-            <span className="font-semibold">R$ {totalPrice.toFixed(2)}</span>
+            <div className="text-right flex flex-col items-end">
+              {product.category === 'sweet' && (
+                <span className="text-[10px] font-normal opacity-80 mb-0.5">
+                  {quantity} un x R$ {(product.basePrice + (sweetShape ? 0.5 : 0)).toFixed(2)}
+                </span>
+              )}
+              <span className="font-semibold text-lg leading-none">R$ {totalPrice.toFixed(2)}</span>
+            </div>
           </button>
         </div>
       </div>

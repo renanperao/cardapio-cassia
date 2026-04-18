@@ -24,6 +24,11 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
           className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setImageLoaded(true)}
         />
+        {product.category === 'vulcao' && (
+          <div className="absolute top-3 left-3 bg-red-600/90 text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider backdrop-blur-sm shadow-sm">
+            Vulcão
+          </div>
+        )}
         {!product.isAvailable && (
           <div className="absolute inset-0 bg-white/40 flex items-center justify-center backdrop-blur-[1px]">
             <span className="bg-stone-800 text-white text-xs font-semibold px-3 py-1 rounded-full tracking-wider uppercase">
@@ -33,16 +38,16 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
         )}
       </div>
       
-      <div className="p-4 flex flex-col flex-grow">
-        <h3 className="font-serif text-lg font-semibold text-stone-800 mb-1 leading-tight">
+      <div className="p-3 sm:p-4 flex flex-col flex-grow">
+        <h3 className="font-serif text-sm sm:text-lg font-semibold text-stone-800 mb-1 leading-tight">
           {product.name}
         </h3>
-        <p className="text-sm text-stone-500 mb-4 line-clamp-2 flex-grow">
+        <p className="text-xs sm:text-sm text-stone-500 mb-3 sm:mb-4 line-clamp-2 flex-grow">
           {product.description}
         </p>
         <div className="flex items-center justify-between mt-auto">
-          <span className="text-sm font-medium text-stone-400">A partir de</span>
-          <span className="font-semibold text-brand-700">
+          <span className="text-[10px] sm:text-sm font-medium text-stone-400">A partir de</span>
+          <span className="text-sm sm:text-base font-semibold text-brand-700">
             R$ {product.basePrice.toFixed(2)}
           </span>
         </div>

@@ -121,7 +121,7 @@ export default function Admin() {
                         <img src={product.image} alt={product.name} className="w-10 h-10 rounded-md object-cover bg-stone-100" />
                         <div>
                           <p className="font-medium text-stone-900">{product.name}</p>
-                          <p className="text-xs text-stone-500">{product.category === 'cake' ? 'Bolo' : (product.category === 'caseirinhos' ? 'Caseirinho' : 'Doce')}</p>
+                          <p className="text-xs text-stone-500">{product.category === 'cake' ? 'Bolo' : (product.category === 'caseirinhos' ? 'Caseirinho' : (product.category === 'pool-cake' ? 'Pool Cake' : (product.category === 'vulcao' ? 'Vulcão' : (product.category === 'recheado' ? 'Recheado' : 'Doce'))))}</p>
                         </div>
                       </div>
                     </td>

@@ -127,7 +127,212 @@ const INITIAL_PRODUCTS: Product[] = [
       icingPriceM: 0, icingPriceG: 0,
       isMilho: true
     }
-  }
+  },
+  {
+    id: '13',
+    name: 'Pool Cake Red Velvet com Cream Cheese',
+    description: 'Massa aveludada com a clássica cobertura de cream cheese.',
+    basePrice: 52,
+    image: 'https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'pool-cake',
+    poolCakeMetadata: { priceM: 52, priceG: 95 }
+  },
+  {
+    id: '14',
+    name: 'Pool Cake Brigadeiro com Confete',
+    description: 'Alegria em forma de bolo, cheio de confetes.',
+    basePrice: 47,
+    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'pool-cake',
+    poolCakeMetadata: { priceM: 47, priceG: 85 }
+  },
+  {
+    id: '15',
+    name: 'Pool Cake Ninho com Nutella',
+    description: 'A combinação perfeita e irresistível.',
+    basePrice: 60,
+    image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'pool-cake',
+    poolCakeMetadata: { priceM: 60, priceG: 110 }
+  },
+  {
+    id: '16',
+    name: 'Pool Cake Prestígio',
+    description: 'Chocolate com coco, um clássico.',
+    basePrice: 52,
+    image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'pool-cake',
+    poolCakeMetadata: { priceM: 52, priceG: 95 }
+  },
+  {
+    id: '17',
+    name: 'Pool Cake Ninho',
+    description: 'Deliciosa cobertura de leite ninho.',
+    basePrice: 52,
+    image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'pool-cake',
+    poolCakeMetadata: { priceM: 52, priceG: 95 }
+  },
+  {
+    id: '18',
+    name: 'Pool Cake Brigadeiro de Nozes',
+    description: 'Sofisticação e sabor único de nozes.',
+    basePrice: 52,
+    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'pool-cake',
+    poolCakeMetadata: { priceM: 52, priceG: 95 }
+  },
+  {
+    id: '19',
+    name: 'Pool Cake Red Velvet (Cream Cheese e Frutas Vermelhas)',
+    description: 'O nosso premium: frutas vermelhas frescas e cream cheese.',
+    basePrice: 65,
+    image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'pool-cake',
+    poolCakeMetadata: { priceM: 65, priceG: 120 }
+  },
+  {
+    id: '20',
+    name: 'Bolo Vulcão Red Velvet com Cream Cheese',
+    description: 'Massa aveludada com uma explosão de cobertura de cream cheese.',
+    basePrice: 56,
+    image: 'https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'vulcao',
+    vulcaoMetadata: { priceM: 56, priceG: 98 }
+  },
+  {
+    id: '21',
+    name: 'Bolo Vulcão Brigadeiro com Confete',
+    description: 'O clássico brigadeiro em versão vulcão, pura alegria.',
+    basePrice: 52,
+    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'vulcao',
+    vulcaoMetadata: { priceM: 52, priceG: 90 }
+  },
+  {
+    id: '22',
+    name: 'Bolo Vulcão Ninho com Nutella',
+    description: 'Transbordando sabor e cremosidade em cada fatia.',
+    basePrice: 65,
+    image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'vulcao',
+    vulcaoMetadata: { priceM: 65, priceG: 115 }
+  },
+  {
+    id: '23',
+    name: 'Bolo Vulcão Prestígio',
+    description: 'Chocolate macio coberto por um incrível vulcão de coco.',
+    basePrice: 56,
+    image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'vulcao',
+    vulcaoMetadata: { priceM: 56, priceG: 98 }
+  },
+  {
+    id: '24',
+    name: 'Bolo Vulcão Ninho',
+    description: 'A delicadeza do ninho em forma de vulcão.',
+    basePrice: 56,
+    image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'vulcao',
+    vulcaoMetadata: { priceM: 56, priceG: 98 }
+  },
+  {
+    id: '25',
+    name: 'Bolo Vulcão Brigadeiro de Nozes',
+    description: 'Sofisticação e sabor único de nozes em abundância.',
+    basePrice: 56,
+    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'vulcao',
+    vulcaoMetadata: { priceM: 56, priceG: 98 }
+  },
+  {
+    id: '26',
+    name: 'Bolo Vulcão Red Velvet (Cream Cheese e Frutas Vermelhas)',
+    description: 'O nosso premium: frutas vermelhas frescas e muito cream cheese.',
+    basePrice: 70,
+    image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    isAvailable: true,
+    category: 'vulcao',
+    vulcaoMetadata: { priceM: 70, priceG: 125 }
+  },
+  { id: '27', name: 'Bolo Recheado Kit Kat', description: 'Bolo recheado com acabamento de Kit Kat. Pedido Mínimo 2kg.', basePrice: 170, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 170, minKg: 2, hasFinishingOptions: false } },
+  { id: '28', name: 'Bolo Recheado Red Velvet c/ Geleia de Frutas Vermelhas', description: 'Massa aveludada com geleia artesanal de frutas vermelhas.', basePrice: 115, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 115, minKg: 1, hasFinishingOptions: false } },
+  { id: '29', name: 'Bolo Recheado Red Velvet c/ Leite Ninho', description: 'Red Velvet especial com o toque do Leite Ninho.', basePrice: 115, image: 'https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 115, minKg: 1, hasFinishingOptions: false } },
+  { id: '30', name: 'Bolo Recheado Ninho c/ Nutella', description: 'A combinação que todos amam.', basePrice: 110, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 110, minKg: 1, hasFinishingOptions: true } },
+  { id: '31', name: 'Bolo Recheado Nozes c/ Leite Condensado Cozido', description: 'A elegância das nozes com o dulçor do doce de leite.', basePrice: 110, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 110, minKg: 1, hasFinishingOptions: true } },
+  { id: '32', name: 'Bolo Recheado Surpresa de Uva (Verde s/ Semente)', description: 'Refrescante e surpreendente.', basePrice: 110, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 110, minKg: 1, hasFinishingOptions: true } },
+  { id: '33', name: 'Bolo Recheado Olho de Sogra', description: 'Tradicional bolo recheado de olho de sogra.', basePrice: 110, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 110, minKg: 1, hasFinishingOptions: true } },
+  { id: '34', name: 'Bolo Recheado Damasco c/ Creme Belga', description: 'Suavidade do creme belga com o toque fino do damasco.', basePrice: 110, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 110, minKg: 1, hasFinishingOptions: true } },
+  { id: '35', name: 'Bolo Recheado 4 Leites', description: 'Massa fofa recheada com um delicioso creme de 4 leites.', basePrice: 110, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 110, minKg: 1, hasFinishingOptions: true } },
+  { id: '36', name: 'Bolo Recheado Ameixa com Doce de Leite', description: 'Clássico imbatível.', basePrice: 110, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 110, minKg: 1, hasFinishingOptions: true } },
+  { id: '37', name: 'Bolo Recheado Ferrero Rocher', description: 'Chocolate, avelã e muito sabor.', basePrice: 110, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 110, minKg: 1, hasFinishingOptions: true } },
+  { id: '38', name: 'Bolo Recheado Creme Belga c/ Abacaxi', description: 'Leve e tropical.', basePrice: 105, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 105, minKg: 1, hasFinishingOptions: true } },
+  { id: '39', name: 'Bolo Recheado Creme Belga c/ Morango', description: 'Morangos frescos no creme belga.', basePrice: 105, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 105, minKg: 1, hasFinishingOptions: true } },
+  { id: '40', name: 'Bolo Recheado Brigadeiro Gourmet', description: 'O clássico com sabor gourmet.', basePrice: 100, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 100, minKg: 1, hasFinishingOptions: true, isBrigadeiroGourmet: true } },
+  { id: '41', name: 'Bolo Recheado Coco (Coco Fresco)', description: 'Frescor do coco em cada mordida.', basePrice: 90, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 90, minKg: 1, hasFinishingOptions: true } },
+  { id: '42', name: 'Bolo Recheado Dois Amores', description: 'A união do brigadeiro branco com o preto.', basePrice: 90, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 90, minKg: 1, hasFinishingOptions: true } },
+  { id: '43', name: 'Bolo Recheado Brigadeiro Amendoim', description: 'Sabor marcante de amendoim.', basePrice: 80, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'recheado', recheadoMetadata: { pricePerKg: 80, minKg: 1, hasFinishingOptions: true } },
+  { id: '44', name: 'Brigadeiro Tradicional ao Leite', description: 'Brigadeiro clássico ao leite.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet', sweetMetadata: { isTradicional: true } },
+  { id: '45', name: 'Brigadeiro Tradicional Branco', description: 'Brigadeiro de chocolate branco.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet', sweetMetadata: { isTradicional: true } },
+  { id: '46', name: 'Brigadeiro Tradicional Moranguinho', description: 'O clássico bicho de pé.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet', sweetMetadata: { isTradicional: true } },
+  { id: '47', name: 'Brigadeiro Tradicional Dois Amores', description: 'Meio branco, meio preto.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet', sweetMetadata: { isTradicional: true } },
+  { id: '48', name: 'Brigadeiro Tradicional Leite Ninho', description: 'Com o sabor puro do Leite Ninho.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?w=800&q=80', isAvailable: true, category: 'sweet', sweetMetadata: { isTradicional: true } },
+  { id: '49', name: 'Brigadeiro Tradicional Coco', description: 'Beijinho de coco tradicional.', basePrice: 1.90, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet', sweetMetadata: { isTradicional: true } },
+
+  { id: '50', name: 'Brigadeiro Gourmet Ninho com Nutella', description: 'Sabor irresistível de ninho e nutella.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '51', name: 'Brigadeiro Gourmet Romeu e Julieta', description: 'Queijo com goiabada.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '52', name: 'Brigadeiro Gourmet Churros', description: 'Sabor marcante de churros e doce de leite.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '53', name: 'Brigadeiro Gourmet Confete', description: 'Alegria em forma de doce.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '54', name: 'Brigadeiro Gourmet Surpresa de Uva', description: 'Uva envolta em brigadeiro branco.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '55', name: 'Brigadeiro Gourmet ao Leite', description: 'Chocolate nobre ao leite.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '56', name: 'Brigadeiro Gourmet Branco', description: 'Chocolate nobre branco.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '57', name: 'Brigadeiro Gourmet Meio Amargo', description: 'Chocolate nobre meio amargo.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '58', name: 'Brigadeiro Gourmet Damasco com Coco', description: 'Uma combinação fina e requintada.', basePrice: 2.50, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'sweet' },
+  
+  { id: '59', name: 'Brigadeiro Gourmet Ferrero', description: 'Inspirado no famoso bombom.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '60', name: 'Brigadeiro Gourmet Ouriço de Coco', description: 'Especialidade de coco.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '61', name: 'Brigadeiro Gourmet Pistache', description: 'O queridinho do momento.', basePrice: 4.50, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
+
+  { id: '62', name: 'Doce Fino Joia de Nozes', description: 'Elegância em cada detalhe.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '63', name: 'Doce Fino Joia de Damasco', description: 'Sofisticação e sabor.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '64', name: 'Doce Fino Copinho de Cereja', description: 'Delicado copinho de chocolate com cereja.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '65', name: 'Doce Fino Copinho de Uva', description: 'Delicado copinho de chocolate com uva.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '66', name: 'Doce Fino Caixeta de Maracujá', description: 'Caixeta de chocolate com trufa de maracujá.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '67', name: 'Doce Fino Pirâmide de Coco', description: 'Chocolate nobre recheado com coco.', basePrice: 5.50, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet' },
+
+  { id: '68', name: 'Doce Fino Caixeta de Morango', description: 'Caixeta de chocolate com morango.', basePrice: 6.00, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
+
+  { id: '69', name: 'Doce Fino Coração de Physalis', description: 'Formato especial com physalis.', basePrice: 6.50, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '70', name: 'Doce Fino Caixeta de Frutas Vermelhas', description: 'Caixeta de chocolate com frutas vermelhas.', basePrice: 6.50, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet' },
+
+  { id: '71', name: 'Coxinha de Morango (Brigadeiro Branco)', description: 'Morango envolto em brigadeiro branco.', basePrice: 5.00, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '72', name: 'Coxinha de Morango (Ao Leite)', description: 'Morango envolto em brigadeiro ao leite.', basePrice: 5.00, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '73', name: 'Coxinha de Morango (Meio Amargo)', description: 'Morango envolto em brigadeiro meio amargo.', basePrice: 5.00, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '74', name: 'Coxinha de Morango (Leite Ninho)', description: 'Morango envolto em brigadeiro de ninho.', basePrice: 5.00, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet' },
+
+  { id: '75', name: 'Bombom de Castanha', description: 'Chocolate e castanhas selecionadas.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '76', name: 'Bombom de Uva', description: 'Clássico bombom de uva.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '77', name: 'Bombom de Damasco com Coco', description: 'Damasco e coco envoltos em chocolate.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '78', name: 'Bombom de Coco', description: 'Bombom clássico de coco.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '79', name: 'Bombom de Amendoim', description: 'Crocante e delicioso.', basePrice: 3.00, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80', isAvailable: true, category: 'sweet' },
+
+  { id: '80', name: 'Bombom de Cereja', description: 'Bombom trufado de cereja.', basePrice: 3.50, image: 'https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '81', name: 'Bombom Romeu e Julieta', description: 'Goiabada e queijo no bombom.', basePrice: 3.50, image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '82', name: 'Bombom de Pistache', description: 'O requinte do pistache.', basePrice: 3.50, image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80', isAvailable: true, category: 'sweet' },
+  { id: '83', name: 'Bombom Camafeu de Nozes', description: 'O mais tradicional dos casamentos.', basePrice: 3.50, image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=800&q=80', isAvailable: true, category: 'sweet' }
 ];
 
 const INITIAL_SETTINGS: StoreSettings = {
@@ -140,14 +345,14 @@ export function useData() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedProducts = localStorage.getItem('@cassia:products_v4');
+    const storedProducts = localStorage.getItem('@cassia:products_v9');
     const storedSettings = localStorage.getItem('@cassia:settings');
 
     if (storedProducts) {
       setProducts(JSON.parse(storedProducts));
     } else {
       setProducts(INITIAL_PRODUCTS);
-      localStorage.setItem('@cassia:products_v4', JSON.stringify(INITIAL_PRODUCTS));
+      localStorage.setItem('@cassia:products_v9', JSON.stringify(INITIAL_PRODUCTS));
     }
 
     if (storedSettings) {
@@ -164,13 +369,13 @@ export function useData() {
   const updateProduct = (updatedProduct: Product) => {
     const newProducts = products.map(p => p.id === updatedProduct.id ? updatedProduct : p);
     setProducts(newProducts);
-    localStorage.setItem('@cassia:products_v4', JSON.stringify(newProducts));
+    localStorage.setItem('@cassia:products_v9', JSON.stringify(newProducts));
   };
 
   const toggleProductAvailability = (id: string) => {
     const newProducts = products.map(p => p.id === id ? { ...p, isAvailable: !p.isAvailable } : p);
     setProducts(newProducts);
-    localStorage.setItem('@cassia:products_v4', JSON.stringify(newProducts));
+    localStorage.setItem('@cassia:products_v9', JSON.stringify(newProducts));
   };
 
   const updateSettings = (newSettings: StoreSettings) => {

@@ -35,6 +35,26 @@ export function useCart() {
           }
         }
         message += `${line} - R$ ${item.totalPrice.toFixed(2)}\n`;
+      } else if (item.product.category === 'pool-cake') {
+        message += `${item.quantity}x ${item.product.name} [Tamanho ${item.size}] - R$ ${item.totalPrice.toFixed(2)}\n`;
+      } else if (item.product.category === 'vulcao') {
+        message += `${item.quantity}x ${item.product.name} [Tamanho ${item.size}] - R$ ${item.totalPrice.toFixed(2)}\n`;
+      } else if (item.product.category === 'recheado') {
+        let name = item.product.name;
+        if (item.recheadoHasStrawberry) {
+          name += ' + Adicional de Morango';
+        }
+        let line = `${item.quantity}x ${name} - Peso: ${item.recheadoKg?.toFixed(1)}kg`;
+        if (item.recheadoFinishing) {
+          line += ` - Cobertura: ${item.recheadoFinishing}`;
+        }
+        message += `${line} - R$ ${item.totalPrice.toFixed(2)}\n`;
+      } else if (item.product.category === 'sweet') {
+        let name = item.product.name;
+        if (item.sweetShape) {
+          name += ' (Formato Flor ou Coração)';
+        }
+        message += `${item.quantity}x ${name} - R$ ${item.totalPrice.toFixed(2)}\n`;
       } else {
         let details = '';
         if (item.size) details += ` Tamanho ${item.size}`;
