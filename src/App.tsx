@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { ShoppingBag, ChevronRight, X } from 'lucide-react';
 import { useData } from './hooks/useData';
 import { useCart } from './hooks/useCart';
@@ -52,8 +52,6 @@ function App() {
     { id: 'recheado', label: 'Bolos Recheados' },
     { id: 'sweet', label: 'Doces Finos' },
   ];
-
-  const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const handleCategoryClick = (categoryId: string) => {
     setActiveCategory(categoryId);
